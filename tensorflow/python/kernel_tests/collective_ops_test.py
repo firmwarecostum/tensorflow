@@ -33,6 +33,7 @@ from tensorflow.python.framework import ops
 from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import check_ops
 from tensorflow.python.ops import collective_ops as _collective_ops
+from tensorflow.python.ops import gen_collective_ops
 from tensorflow.python.ops import resource_variable_ops
 from tensorflow.python.platform import test
 
@@ -1856,6 +1857,37 @@ class CollectiveOpsV3Test(test.TestCase, parameterized.TestCase):
     # result[0] is rank 1 and shall have 4, 2.
     self.assertAllClose(result[1], [4.0, 2.0], rtol=1e-5, atol=1e-5)
     self.assertAllClose(result[0], [3.0, 1.0], rtol=1e-5, atol=1e-5)
+
+
+class CollectiveOpsScalarInputTest(test.TestCase):
+
+  def setUp(self):
+    _setup_context()
+    super().setUp()
+
+  def testScalarInputGather(self):
+    t = constant_op.constant(5.0)
+    with self.assertRaises(errors.InvalidArgumentError):
+      gen_collective_ops.collective_gather_v2(
+          input=t,
+          group_size=constant_op.constant(2),
+          group_key=constant_op.constant(1),
+          instance_key=constant_op.constant(1),
+          ordering_token=[],
+      )
+
+  def testScalarInputReduceScatter(self):
+    t = constant_op.constant(5.0)
+    with self.assertRaises(errors.InvalidArgumentError):
+      gen_collective_ops.collective_reduce_scatter_v2(
+          input=t,
+          group_size=constant_op.constant(2),
+          group_key=constant_op.constant(1),
+          instance_key=constant_op.constant(1),
+          ordering_token=[],
+          merge_op='Add',
+          final_op='Id',
+      )
 
 
 def _setup_context(num_devices=4):
