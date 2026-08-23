@@ -52,7 +52,6 @@ list(APPEND TFLITE_BENCHMARK_LIBS
   example_proto
   model_runtime_info_proto
   benchmark_result_proto
-  protobuf::libprotobuf
   absl::log
 )
 
