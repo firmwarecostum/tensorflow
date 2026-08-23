@@ -52,7 +52,7 @@ if(NOT TENSORFLOW_SOURCE_DIR)
     tensorflow
     GIT_REPOSITORY https://github.com/tensorflow/tensorflow.git
     # v2.21.0-rc0 has updated schema_generated.h file.
-    GIT_TAG v2.21.0-rc0
+    GIT_TAG 64fbb70af661b3f64be626fa1172d43b882c39bb
     GIT_SHALLOW TRUE
     GIT_PROGRESS TRUE
     SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/tensorflow-src
@@ -575,7 +575,6 @@ if(TFLITE_ENABLE_XNNPACK)
   target_link_libraries(xnnpack-delegate
     Eigen3::Eigen
     absl::span
-    flatbuffers::flatbuffers
     gemmlowp::gemmlowp
     ruy::ruy
     ${XNNPACK_NEON_2_SSE}
@@ -768,7 +767,6 @@ target_link_libraries(tensorflow-lite
     absl::variant
     farmhash
     fft2d_fftsg2d
-    flatbuffers::flatbuffers
     gemmlowp::gemmlowp
     ml_dtypes
     ruy::ruy
